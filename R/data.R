@@ -1,7 +1,9 @@
 #' Cross-national data on remittances and protest
 #'
 #' A data set to replicate the findings of Escrib\`{a}-Folch,
-#' Meseguer, and Wright (2018).
+#' Meseguer, and Wright (2018). Data and data descriptions are
+#' from that paper's replication data, available at  
+#' https://doi.org/10.7910/DVN/TVZQG6
 #'
 #' \itemize{
 #'  \item Protest. standardized measure of latent protest from Chenoweth et al. (2014)
