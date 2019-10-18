@@ -1,23 +1,23 @@
 #' Cross-national data on remittances and protest
 #'
 #' A data set to replicate the findings of Escrib\`{a}-Folch,
-#' Meseguer, and Wright (2018)
+#' Meseguer, and Wright (2018).
 #'
 #' \itemize{
-#'  \item Protest.
-#'  \item remit.
-#'  \item dict.
-#'  \item l1gdp.
-#'  \item l1pop.
-#'  \item l1nbr5.
-#'  \item l12gr.
-#'  \item l1migr.
-#'  \item elec3.
-#'  \item cowcode.
-#'  \item period.
+#'  \item Protest. standardized measure of latent protest from Chenoweth et al. (2014)
+#'  \item remit. natural log of the 2-year lagged moving average of total remittances received in constant US dollars
+#'  \item dict. binary indicator of autocracy or democracy from	Geddes, Wright, and Frantz (2014)
+#'  \item l1gdp. natural log of one-period lagged gdp per capita
+#'  \item l1pop. natural log of one-period lag of population
+#'  \item l1nbr5. lagged mean latent level of protest in countries with capital cities within 4000km of the target country’s capital.
+#'  \item l12gr. two-year lagged moving average of GDP per capita growth (in percent)
+#'  \item l1migr. natural log of lagged net migration in millions
+#'  \item elec3. indicator for multiparty election in that year, year prior, or year after
+#'  \item cowcode. country code from correlates of war dataset
+#'  \item period. six ordinal time periods
 #'  \item distwremit.
-#'  \item caseid.
-#'  \item year.
+#'  \item caseid. numerical code for autocratic regime case name
+#'  \item year. year
 #' }
 #'
 #' @docType data
