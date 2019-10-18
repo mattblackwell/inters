@@ -1,0 +1,24 @@
+Package: inters
+Version: 0.1
+Title: Tools for Estimating Interactions
+Authors@R: c(
+    person("Matthew", "Blackwell", email = "mblackwell@gov.harvard.edu", role = c("aut", "cre")),
+    person("Olson", "Michael", email = "michaelolson@g.harvard.edu", role = c("aut")))
+Imports:
+    stats,
+    sandwich,
+    lfe,
+    glmnet
+Depends:
+    R (>= 3.0.0)
+Suggests:
+    knitr,
+    ggplot2
+Description: A set of functions to estimate interactions minimizing bias and overfitting.
+License: GPL (>= 2)
+URL: http://www.mattblackwell.org/software/inters/
+BugReports: https://github.com/mattblackwell/inters/issues
+VignetteBuilder: knitr
+LazyData: true
+Encoding: UTF-8
+RoxygenNote: 6.1.0

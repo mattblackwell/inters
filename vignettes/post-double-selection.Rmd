@@ -1,0 +1,98 @@
+---
+title: "Estimating Interactions with Post-double Selection"
+date: "`r Sys.Date()`"
+link-citations: yes
+bibliography: inters.bib
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Post-double selection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r loadpkg, echo = FALSE, include = FALSE}
+knitr::opts_chunk$set(fig.width = 8, fig.height = 5, fig.align = "center")
+require(ggplot2)
+require(sandwich)
+library(lfe)
+library(inters) 
+```
+
+
+```{r}
+data(remit)
+single <- felm(Protest ~ remit*dict + l1gdp + l1pop + l1nbr5 + l12gr + l1migr
+               + elec3 | period + cowcode | 0 | caseid,
+              data = remit)
+fully <- felm(Protest ~ dict * (remit + l1gdp + l1pop + l1nbr5 + l12gr + l1migr +
+                                  elec3 + factor(period) + factor(cowcode))
+              | 0 | 0 | caseid, data = remit)
+```
+
+
+```{r postlasso}
+controls <- c("l1gdp", "l1pop", "l1nbr5", "l12gr", "l1migr", "elec3")
+post_ds_out <- post_ds_interaction(data = remit, treat = "remit", moderator = "dict",
+                                outcome = "Protest", control_vars = controls,
+                                panel_vars = c("cowcode", "period"),
+                                cluster = "caseid")
+post_ds_vcov <- post_ds_out$clustervcv
+```
+
+
+
+```{r calcs, echo = FALSE}
+se_single  <- sqrt(c(single$clustervcv["remit","remit"],
+                     single$clustervcv["remit","remit"] + single$clustervcv["remit:dict","remit:dict"] +
+                       2 * single$clustervcv["remit","remit:dict"],
+                     single$clustervcv["remit:dict","remit:dict"]))
+
+se_fully <- sqrt(c(fully$clustervcv["remit","remit"],
+                   fully$clustervcv["remit","remit"] +
+                     fully$clustervcv["dict:remit","dict:remit"] +
+                     2 * fully$clustervcv["remit","dict:remit"],
+                   fully$clustervcv["dict:remit","dict:remit"]))
+  
+se_pds    <- sqrt(c(post_ds_vcov["remit","remit"],
+                    post_ds_vcov["remit","remit"] +
+                      post_ds_vcov["remit_dict","remit_dict"] +
+                      2 * post_ds_vcov["remit","remit_dict"],
+                    post_ds_vcov["remit_dict","remit_dict"]))
+
+coefficients <- c(coef(single)["remit"],
+                  coef(single)["remit"] + coef(single)["remit:dict"],
+                  coef(single)["remit:dict"],
+                  coef(fully)["remit"],
+                  coef(fully)["remit"]+coef(fully)["dict:remit"],
+                  coef(fully)["dict:remit"],
+                  coef(post_ds_out)["remit"],
+                  coef(post_ds_out)["remit_dict"]+coef(post_ds_out)["remit"],
+                  coef(post_ds_out)["remit_dict"])
+names(coefficients) <- NULL
+coefficients_df <- data.frame(
+  qoi  = factor(rep(c("Marginal Effect, Democracy", "Marginal Effect, Autocracy",
+                 "Interaction"), times = 3)),
+  method =  factor(rep(c("Single Interaction", "Fully Moderated",
+                  "Post-double Selection"), each = 3)),
+  est = coefficients,
+  se = c(se_single, se_fully, se_pds)
+)
+```
+
+
+```{r coefplot}
+ggplot(coefficients_df, aes(x = qoi, y = est,
+                            group = method, colour = method,
+                            shape = method)) +
+  geom_hline(yintercept = 0, linetype = 2, size = 1, colour = "indianred") +
+  geom_point(size = 3, position = position_dodge(width = 0.5)) +
+  geom_errorbar(size = 0.75, aes(ymin = est - 2 * se, ymax = est + 2 * se),
+                position = position_dodge(width = 0.5), width = 0) +
+  geom_errorbar(size = 1.5, aes(ymin = est - 1.65 * se, ymax = est + 1.65 * se),
+                position = position_dodge(width = 0.5), width = 0) +
+  scale_colour_grey() +
+  xlab("Quantity of Interest") +
+  labs(color = "Method", shape = "Method") +
+  ylab("Estimate") +
+  theme_minimal()
+```
