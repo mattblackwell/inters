@@ -13,7 +13,8 @@ Depends:
     R (>= 3.0.0)
 Suggests:
     knitr,
-    ggplot2
+    ggplot2,
+    lmtest
 Description: A set of functions to estimate interactions minimizing bias and overfitting.
 License: GPL (>= 2)
 URL: http://www.mattblackwell.org/software/inters/
