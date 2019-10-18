@@ -6,4 +6,4 @@ require(devtools)
 install_github("mattblackwell/inters", build_vignettes = TRUE)
 ```
 
-[de-paper]: http://www.mattblackwell.org/files/papers/lasso-inters.pdf
+[lasso-paper]: http://www.mattblackwell.org/files/papers/lasso-inters.pdf
