@@ -15,11 +15,11 @@ Suggests:
     knitr,
     ggplot2,
     lmtest
-Description: A set of functions to estimate interactions minimizing bias and overfitting.
+Description: A set of functions to estimate interactions .
 License: GPL (>= 2)
 URL: http://www.mattblackwell.org/software/inters/
 BugReports: https://github.com/mattblackwell/inters/issues
 VignetteBuilder: knitr
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2

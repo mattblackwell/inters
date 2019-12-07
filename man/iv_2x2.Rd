@@ -50,7 +50,7 @@ to  estimate both the proportions of each compliance class (also
 known as principal strata) and the average potential outcomes
 within those classes. It also provides estimates of several
 one-way, joint, and interactive treatment effects within these
-classes.
+classes. 
 
 Under the above assumptions, the compliance classes are the
 product of the compliance classes for each treatment-instrument

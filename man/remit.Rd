@@ -4,9 +4,27 @@
 \name{remit}
 \alias{remit}
 \title{Cross-national data on remittances and protest}
-\format{A data frame with 2429 observations and 14 variables.}
+\format{A data frame with 2429 observations and 14 variables:
+\describe{
+ \item{Protest}{standardized measure of latent protest from Chenoweth et al. (2014)}
+ \item{remit}{natural log of the 2-year lagged moving average of total remittances received in constant US dollars}
+ \item{dict}{binary indicator of autocracy or democracy from	Geddes, Wright, and Frantz (2014)}
+ \item{l1gdp}{natural log of one-period lagged gdp per capita}
+ \item{l1pop}{natural log of one-period lag of population}
+ \item{l1nbr5}{lagged mean latent level of protest in countries with capital cities within 4000km of the target country's capital}
+ \item{l12gr}{two-year lagged moving average of GDP per capita growth (in percent)}
+ \item{l1migr}{natural log of lagged net migration in millions}
+ \item{elec3}{indicator for multiparty election in that year, year prior, or year after}
+ \item{cowcode}{country code from correlates of war dataset}
+ \item{period}{six ordinal time periods}
+ \item{caseid}{numerical code for autocratic regime case name}
+ \item{year}{year}
+}}
 \source{
 \url{https://doi.org/10.7910/DVN/TVZQG6}
+}
+\usage{
+remit
 }
 \description{
 A data set to replicate the findings of Escrib\`{a}-Folch,
@@ -14,26 +32,9 @@ Meseguer, and Wright (2018). Data and data descriptions are
 from that paper's replication data, available at  
 https://doi.org/10.7910/DVN/TVZQG6
 }
-\details{
-\itemize{
- \item Protest. standardized measure of latent protest from Chenoweth et al. (2014)
- \item remit. natural log of the 2-year lagged moving average of total remittances received in constant US dollars
- \item dict. binary indicator of autocracy or democracy from	Geddes, Wright, and Frantz (2014)
- \item l1gdp. natural log of one-period lagged gdp per capita
- \item l1pop. natural log of one-period lag of population
- \item l1nbr5. lagged mean latent level of protest in countries with capital cities within 4000km of the target country’s capital.
- \item l12gr. two-year lagged moving average of GDP per capita growth (in percent)
- \item l1migr. natural log of lagged net migration in millions
- \item elec3. indicator for multiparty election in that year, year prior, or year after
- \item cowcode. country code from correlates of war dataset
- \item period. six ordinal time periods
- \item distwremit.
- \item caseid. numerical code for autocratic regime case name
- \item year. year
-}
-}
 \references{
 Escrib\`{a}-Folch, A., Meseguer, C. and Wright, J. (2018), Remittances and Protest in Dictatorships. American Journal of Political Science, 62: 889-904. doi:10.1111/ajps.12382
 
 Wright, Joseph, 2018, "Replication Data for: Remittances and Protest in Dictatorships", https://doi.org/10.7910/DVN/TVZQG6, Harvard Dataverse, V1, UNF:6:IE6OqUb3EB5AIDYKI28mgA== [fileUNF]
 }
+\keyword{datasets}

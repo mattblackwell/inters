@@ -4,8 +4,16 @@
 \alias{post_ds_interaction}
 \title{Post-double selection estimator for interactions}
 \usage{
-post_ds_interaction(data, treat, moderator, outcome, control_vars,
-  panel_vars = NULL, moderator_marg = TRUE, cluster = NULL)
+post_ds_interaction(
+  data,
+  treat,
+  moderator,
+  outcome,
+  control_vars,
+  panel_vars = NULL,
+  moderator_marg = TRUE,
+  cluster = NULL
+)
 }
 \arguments{
 \item{data}{data.frame to find the relevant variables.}
