@@ -12,7 +12,8 @@ post_ds_interaction(
   control_vars,
   panel_vars = NULL,
   moderator_marg = TRUE,
-  cluster = NULL
+  cluster = NULL,
+  method = "double selection"
 )
 }
 \arguments{
@@ -34,11 +35,16 @@ variables to include as fixed effects.}
 of the moderator should be included ()}
 
 \item{cluster}{string with the name of the cluster variable.}
+
+\item{method}{string indicating which method to use. The default
+is \code{"double selection"} selects variables based on the
+outcome and treatment/interaction variables and \code{"single
+selection"} only selects on the outcome.}
 }
 \value{
 Returns an object of the class \code{lm} with an
   additional \code{clustervcv} object containing the
-  cluster-robust variance matrix estimate when \code{cluster} is 
+  cluster-robust variance matrix estimate when \code{cluster} is
   provided.
 }
 \description{
