@@ -7,14 +7,15 @@ Authors@R: c(
 Imports:
     stats,
     sandwich,
-    lfe,
+    fixest,
     glmnet
 Depends:
     R (>= 3.0.0)
 Suggests:
     knitr,
     ggplot2,
-    lmtest
+    lmtest,
+    rmarkdown
 Description: A set of functions to estimate interactions .
 License: GPL (>= 2)
 URL: http://www.mattblackwell.org/software/inters/

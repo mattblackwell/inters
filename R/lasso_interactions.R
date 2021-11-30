@@ -98,8 +98,8 @@ post_ds_interaction <- function(data, treat, moderator, outcome, control_vars,
     forced <- c(rep(TRUE, ncol(x_mat)), rep(FALSE, ncol(x_int_mat)),
                 rep(FALSE, ncol(x_pan_int)))
     x_mat <- cbind(x_mat, x_int_mat, x_pan_int)
-    hold <- lfe::demeanlist(cbind(y_mat, t_mat, x_mat),
-                            fl = lapply(data[, panel_vars], factor))
+    hold <- fixest::demean(cbind(y_mat, t_mat, x_mat),
+                           f = data[, panel_vars])
     y_mat <- hold[, 1]
     t_mat <- hold[, 2:3]
     x_mat <- hold[, -c(1:3)]
