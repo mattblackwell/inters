@@ -20,7 +20,7 @@ library(inters)
 ```
 
 
-In this vignette, we demonstrate how to use the `inters` package to conduct post-double selection for interactions with linear models. We use the remittances data of @EscMesWri2018 to illustrate the method, as shown in @BlaOls19. The goal of this study was to evaluate how remittances affect political protest differently in democracies and non-democracies. 
+In this vignette, we demonstrate how to use the `inters` package to conduct post-double selection for interactions with linear models. We use the remittances data of @EscMesWri2018 to illustrate the method, as shown in @BlaOls21. The goal of this study was to evaluate how remittances affect political protest differently in democracies and non-democracies. 
 
 To begin, we load the data and run two alternative models. The first is a simple single-interaction model that includes the treatment (remittances, `remit`), the moderator (a binary variable for autocracy, `dict`), an interaction between these two, and a series of control variables. We use the `feols` function from the `fixest` package to handle country and period fixed effects along with clustering at the country level. 
 
@@ -31,7 +31,7 @@ single <- feols(Protest ~ remit*dict + l1gdp + l1pop + l1nbr5 + l12gr + l1migr
 coeftable(single, cluster = ~ caseid)[c("remit", "remit:dict"),]
 ```
 
-Next, we compare this single-interaction model to a model that fully interacts the moderator with the entire set of controls, including the fixed effects. @BlaOls19 call this the *fully moderated model*.
+Next, we compare this single-interaction model to a model that fully interacts the moderator with the entire set of controls, including the fixed effects. @BlaOls21 call this the *fully moderated model*.
 
 ```{r fully}
 fully <- feols(Protest ~ dict * (remit + l1gdp + l1pop + l1nbr5 + l12gr + l1migr +
