@@ -4,7 +4,8 @@
 \name{remit}
 \alias{remit}
 \title{Cross-national data on remittances and protest}
-\format{A data frame with 2429 observations and 14 variables:
+\format{
+A data frame with 2429 observations and 14 variables:
 \describe{
  \item{Protest}{standardized measure of latent protest from Chenoweth et al. (2014)}
  \item{remit}{natural log of the 2-year lagged moving average of total remittances received in constant US dollars}
@@ -19,9 +20,10 @@
  \item{period}{six ordinal time periods}
  \item{caseid}{numerical code for autocratic regime case name}
  \item{year}{year}
-}}
+}
+}
 \source{
-\url{https://doi.org/10.7910/DVN/TVZQG6}
+\doi{10.7910/DVN/TVZQG6}
 }
 \usage{
 remit
@@ -30,11 +32,11 @@ remit
 A data set to replicate the findings of Escrib\`{a}-Folch,
 Meseguer, and Wright (2018). Data and data descriptions are
 from that paper's replication data, available at  
-https://doi.org/10.7910/DVN/TVZQG6
+\doi{10.7910/DVN/TVZQG6}
 }
 \references{
-Escrib\`{a}-Folch, A., Meseguer, C. and Wright, J. (2018), Remittances and Protest in Dictatorships. American Journal of Political Science, 62: 889-904. doi:10.1111/ajps.12382
+Escrib\`{a}-Folch, A., Meseguer, C. and Wright, J. (2018), Remittances and Protest in Dictatorships. American Journal of Political Science, 62: 889-904. \doi{10.1111/ajps.12382}
 
-Wright, Joseph, 2018, "Replication Data for: Remittances and Protest in Dictatorships", https://doi.org/10.7910/DVN/TVZQG6, Harvard Dataverse, V1, UNF:6:IE6OqUb3EB5AIDYKI28mgA== [fileUNF]
+Wright, Joseph, 2018, "Replication Data for: Remittances and Protest in Dictatorships", \doi{10.7910/DVN/TVZQG6}, Harvard Dataverse, V1, UNF:6:IE6OqUb3EB5AIDYKI28mgA== [fileUNF]
 }
 \keyword{datasets}

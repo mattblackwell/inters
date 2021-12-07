@@ -4,7 +4,8 @@
 \name{primary}
 \alias{primary}
 \title{Data on the direct primary in US congressional elections}
-\format{A data frame with 1164 observations and the following 7
+\format{
+A data frame with 1164 observations and the following 7
   variables:
 \describe{
   \item{state}{name of the state}
@@ -19,7 +20,8 @@
   direct primary (=1) or not (=0)}
   \item{south}{binary variable indicating if the state is in the
   South (=1) or not (=0)}
-}}
+}
+}
 \source{
 \url{https://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/6895}
 }

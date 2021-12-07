@@ -41,13 +41,13 @@
 ##'   Hansen, Inference on Treatment Effects after Selection among
 ##'   High-Dimensional Controls, The Review of Economic Studies,
 ##'   Volume 81, Issue 2, April 2014, Pages 608-650,
-##'   \url{https://doi.org/10.1093/restud/rdt044}
+##'   \doi{10.1093/restud/rdt044}
 ##'
 ##' Matthew Blackwell and Michael Olson. "Reducing Model Misspectation
 ##'   and Bias in the Estimation of Interactions." Working Paper,
 ##'   2019.
 ##' @export
-##' @importFrom stats as.formula model.matrix
+##' @importFrom stats as.formula model.matrix coef cor hatvalues residuals
 
 post_ds_interaction <- function(data, treat, moderator, outcome, control_vars,
                                 panel_vars = NULL, moderator_marg = TRUE,

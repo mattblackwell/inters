@@ -18,9 +18,9 @@ Suggests:
     rmarkdown
 Description: A set of functions to estimate interactions flexibly in the face of possibly many controls.
 License: GPL (>= 2)
-URL: http://www.mattblackwell.org/software/inters/
+URL: https://mattblackwell.github.io/inters/
 BugReports: https://github.com/mattblackwell/inters/issues
 VignetteBuilder: knitr
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1

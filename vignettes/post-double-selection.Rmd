@@ -5,7 +5,7 @@ link-citations: yes
 bibliography: inters.bib
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Post-double selection}
+  %\VignetteIndexEntry{Estimating Interactions with Post-double Selection}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
