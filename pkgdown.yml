@@ -1,0 +1,10 @@
+pandoc: 2.7.3
+pkgdown: 2.0.1
+pkgdown_sha: ~
+articles:
+  post-double-selection: post-double-selection.html
+last_built: 2021-12-08T02:12Z
+urls:
+  reference: https://mattblackwell.github.io/inters/reference
+  article: https://mattblackwell.github.io/inters/articles
+
