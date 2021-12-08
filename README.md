@@ -1,5 +1,9 @@
 # inters
 
+  <!-- badges: start -->
+  [![R-CMD-check](https://github.com/mattblackwell/inters/workflows/R-CMD-check/badge.svg)](https://github.com/mattblackwell/inters/actions)
+  <!-- badges: end -->
+
 `inters` is an R package with tools to estimate interactions. Currently, it implements the post-double-selection approach to estimating interactions described in this [forthcoming paper by Matthew Blackwell and Michael Olson][lasso-paper]. To install the development version of `inters`, run the following code in R:
 ```R
 require(devtools)
