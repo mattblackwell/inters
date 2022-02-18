@@ -56,7 +56,7 @@ post_ds_interaction <- function(data, treat, moderator, outcome, control_vars,
   # create y and x matrices
   y_mat <- as.matrix(data[[outcome]])
   y_mat <- y_mat - mean(y_mat)
-  x_mat <- as.matrix(data[, c(control_vars)])
+  x_mat <- as.matrix(data[, c(control_vars), drop = FALSE])
   t_mat <- cbind(data[[treat]], data[[treat]] * data[[moderator]])
   colnames(t_mat) <- c(treat, paste(c(treat, moderator), collapse = "_"))
 
