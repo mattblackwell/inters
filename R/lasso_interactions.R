@@ -43,9 +43,9 @@
 ##'   Volume 81, Issue 2, April 2014, Pages 608-650,
 ##'   \doi{10.1093/restud/rdt044}
 ##'
-##' Matthew Blackwell and Michael Olson. "Reducing Model Misspectation
-##'   and Bias in the Estimation of Interactions." Working Paper,
-##'   2019.
+##' Matthew Blackwell and Michael Olson.. "Reducing Model Misspectation
+##'   and Bias in the Estimation of Interactions." Political Analysis,
+##' 2021. 
 ##' @export
 ##' @importFrom stats as.formula model.matrix coef cor hatvalues residuals
 
@@ -54,15 +54,15 @@ post_ds_interaction <- function(data, treat, moderator, outcome, control_vars,
                                 cluster = NULL, method = "double selection") {
 
   # create y and x matrices
-  y_mat <- as.matrix(data[, outcome])
+  y_mat <- as.matrix(data[[outcome]])
   y_mat <- y_mat - mean(y_mat)
   x_mat <- as.matrix(data[, c(control_vars)])
-  t_mat <- cbind(data[, treat], data[, treat] * data[, moderator])
+  t_mat <- cbind(data[[treat]], data[[treat]] * data[[moderator]])
   colnames(t_mat) <- c(treat, paste(c(treat, moderator), collapse = "_"))
 
 
   if (!is.null(cluster)) {
-    cl <- data[, cluster]
+    cl <- data[[cluster]]
   } else {
     cl <- NULL
   }
@@ -75,7 +75,7 @@ post_ds_interaction <- function(data, treat, moderator, outcome, control_vars,
     panel_mat <- model.matrix(panel_form, data = data,
                               contrasts.arg = contr.list)[, -1]
   ## x_mat <- cbind(x_mat, panel_mat)
-    x_pan_int <- panel_mat * data[, moderator]
+    x_pan_int <- panel_mat * data[[moderator]]
     colnames(x_pan_int) <- paste(colnames(panel_mat), moderator, sep = "_")
 
   } else {
@@ -83,14 +83,14 @@ post_ds_interaction <- function(data, treat, moderator, outcome, control_vars,
   }
 
   ## create interaction matrix
-  x_int_mat <- x_mat * data[, moderator]
+  x_int_mat <- x_mat * data[[moderator]]
   if (dim(x_int_mat)[2])
     colnames(x_int_mat) <- paste(colnames(x_mat), moderator, sep = "_")
 
 
   ## add interaction matrix to x matrix
   if (moderator_marg | method == "partialing out") {
-    x_mat <- cbind(data[, moderator], x_mat)
+    x_mat <- cbind(data[[moderator]], x_mat)
     colnames(x_mat)[1] <- moderator
   }
 
@@ -110,7 +110,7 @@ post_ds_interaction <- function(data, treat, moderator, outcome, control_vars,
   }
 
   reg_out <- post_double_selection(x = x_mat, d = t_mat, y = y_mat,
-                                   v = data[, moderator], cl = cl,
+                                   v = data[[moderator]], cl = cl,
                                    panels = panel_mat, forced = forced,
                                    method = method)
   return(reg_out)
