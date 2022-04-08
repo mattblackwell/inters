@@ -72,7 +72,7 @@ Alexandre Belloni, Victor Chernozhukov, Christian
   Volume 81, Issue 2, April 2014, Pages 608-650,
   \doi{10.1093/restud/rdt044}
 
-Matthew Blackwell and Michael Olson. "Reducing Model Misspectation
-  and Bias in the Estimation of Interactions." Working Paper,
-  2019.
+Matthew Blackwell and Michael Olson.. "Reducing Model Misspectation
+  and Bias in the Estimation of Interactions." Political Analysis,
+2021.
 }

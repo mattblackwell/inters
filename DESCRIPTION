@@ -3,7 +3,7 @@ Version: 0.1
 Title: Flexible Tools for Estimating Interactions
 Authors@R: c(
     person("Matthew", "Blackwell", email = "mblackwell@gov.harvard.edu", role = c("aut", "cre")),
-    person("Olson", "Michael", email = "michaelolson@g.harvard.edu", role = c("aut")))
+    person("Olson", "Michael", email = " michael.p.olson@wustl.edu", role = c("aut")))
 Imports:
     stats,
     sandwich,
@@ -23,4 +23,4 @@ BugReports: https://github.com/mattblackwell/inters/issues
 VignetteBuilder: knitr
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
