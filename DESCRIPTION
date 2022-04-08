@@ -2,8 +2,8 @@ Package: inters
 Version: 0.1
 Title: Flexible Tools for Estimating Interactions
 Authors@R: c(
-    person("Matthew", "Blackwell", email = "mblackwell@gov.harvard.edu", role = c("aut", "cre")),
-    person("Olson", "Michael", email = " michael.p.olson@wustl.edu", role = c("aut")))
+    person("Matthew", "Blackwell", email = "mblackwell@gov.harvard.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3689-9527")),
+    person("Olson", "Michael", email = " michael.p.olson@wustl.edu", role = c("aut"))) 
 Imports:
     stats,
     sandwich,
@@ -16,7 +16,7 @@ Suggests:
     ggplot2,
     lmtest,
     rmarkdown
-Description: A set of functions to estimate interactions flexibly in the face of possibly many controls.
+Description: A set of functions to estimate interactions flexibly in the face of possibly many controls. Implements the procedures described in Blackwell and Olson (2022) <doi:10.1093/restud/rdt044>.
 License: GPL (>= 2)
 URL: https://mattblackwell.github.io/inters/
 BugReports: https://github.com/mattblackwell/inters/issues
