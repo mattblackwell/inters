@@ -13,7 +13,6 @@ vignette: >
 ```{r loadpkg, echo = FALSE, include = FALSE}
 knitr::opts_chunk$set(fig.width = 8, fig.height = 5, fig.align = "center")
 require(ggplot2)
-require(sandwich)
 library(lmtest)
 library(fixest)
 library(inters) 

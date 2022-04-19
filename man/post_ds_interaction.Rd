@@ -65,6 +65,21 @@ The \code{post_ds_interaction} implements the post-double
   the final post-double selection OLS. The \code{cluster} argument
   adjusts the lasso
 }
+\examples{
+data(remit)
+
+controls <- c("l1gdp", "l1pop", "l1nbr5", "l12gr", "l1migr",
+"elec3")
+
+post_ds_out <- post_ds_interaction(
+  data = remit, treat = "remit",
+  moderator = "dict", outcome = "Protest",
+  control_vars = controls,
+  panel_vars = c("cowcode", "period"),
+  cluster = "caseid"
+)
+
+}
 \references{
 Alexandre Belloni, Victor Chernozhukov, Christian
   Hansen, Inference on Treatment Effects after Selection among

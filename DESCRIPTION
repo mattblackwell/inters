@@ -6,7 +6,6 @@ Authors@R: c(
     person("Olson", "Michael", email = " michael.p.olson@wustl.edu", role = c("aut"))) 
 Imports:
     stats,
-    sandwich,
     fixest,
     glmnet
 Depends:
