@@ -75,7 +75,6 @@ post_ds_out <- post_ds_interaction(
   data = remit, treat = "remit",
   moderator = "dict", outcome = "Protest",
   control_vars = controls,
-  panel_vars = c("cowcode", "period"),
   cluster = "caseid"
 )
 
