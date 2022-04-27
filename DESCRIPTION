@@ -1,5 +1,5 @@
 Package: inters
-Version: 0.1
+Version: 0.1.9000
 Title: Flexible Tools for Estimating Interactions
 Authors@R: c(
     person("Matthew", "Blackwell", email = "mblackwell@gov.harvard.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3689-9527")),

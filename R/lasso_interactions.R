@@ -59,35 +59,48 @@
 ##'   and Bias in the Estimation of Interactions." Political Analysis,
 ##' 2021. 
 ##' @export
-##' @importFrom stats as.formula model.matrix coef cor hatvalues residuals
+##' @importFrom stats as.formula model.matrix coef cor hatvalues
+##' residuals model.frame reformulate
 
 post_ds_interaction <- function(data, treat, moderator, outcome, control_vars,
                                 panel_vars = NULL, moderator_marg = TRUE,
                                 cluster = NULL, method = "double selection") {
 
+
+  if (!is.null(panel_vars)) {
+    if (any(sapply(data[panel_vars], is.numeric))) {
+      num_pan <- which(sapply(data[panel_vars], is.numeric))
+      panel_vars[num_pan] <- paste("factor(", panel_vars[num_pan], ")", sep = "")
+    }
+  } 
+
+  all_vars <- c(treat, moderator, control_vars, panel_vars, cluster)
+  formula <- stats::reformulate(all_vars, response = outcome)
+  mf <- stats::model.frame(formula, data)
   # create y and x matrices
-  y_mat <- as.matrix(data[[outcome]])
+  
+  y_mat <- as.matrix(mf[[outcome]])
   y_mat <- y_mat - mean(y_mat)
-  x_mat <- as.matrix(data[, c(control_vars), drop = FALSE])
-  t_mat <- cbind(data[[treat]], data[[treat]] * data[[moderator]])
+  control_form <- stats::reformulate(control_vars, intercept = FALSE)
+  x_mat <- model.matrix(control_form, data = mf)
+  t_mat <- cbind(mf[[treat]], mf[[treat]] * mf[[moderator]])
   colnames(t_mat) <- c(treat, paste(c(treat, moderator), collapse = "_"))
 
 
   if (!is.null(cluster)) {
-    cl <- data[[cluster]]
+    cl <- mf[[cluster]]
   } else {
     cl <- NULL
   }
 
   if (!is.null(panel_vars)) {
-    fnames <- paste("factor(", panel_vars, ")", sep = "")
     contr.list <- list(contr.sum, contr.sum)
-    names(contr.list) <- fnames
-    panel_form <- as.formula(paste("~", paste(fnames, collapse = " + ")))
-    panel_mat <- model.matrix(panel_form, data = data,
-                              contrasts.arg = contr.list)[, -1]
+    names(contr.list) <- panel_vars
+    panel_form <- stats::reformulate(panel_vars, intercept = FALSE)
+    panel_mat <- model.matrix(panel_form, data = mf,
+                              contrasts.arg = contr.list)
   ## x_mat <- cbind(x_mat, panel_mat)
-    x_pan_int <- panel_mat * data[[moderator]]
+    x_pan_int <- panel_mat * mf[[moderator]]
     colnames(x_pan_int) <- paste(colnames(panel_mat), moderator, sep = "_")
 
   } else {
@@ -95,14 +108,14 @@ post_ds_interaction <- function(data, treat, moderator, outcome, control_vars,
   }
 
   ## create interaction matrix
-  x_int_mat <- x_mat * data[[moderator]]
+  x_int_mat <- x_mat * mf[[moderator]]
   if (dim(x_int_mat)[2])
     colnames(x_int_mat) <- paste(colnames(x_mat), moderator, sep = "_")
 
 
   ## add interaction matrix to x matrix
   if (moderator_marg | method == "partialing out") {
-    x_mat <- cbind(data[[moderator]], x_mat)
+    x_mat <- cbind(mf[[moderator]], x_mat)
     colnames(x_mat)[1] <- moderator
   }
 
@@ -111,7 +124,7 @@ post_ds_interaction <- function(data, treat, moderator, outcome, control_vars,
                 rep(FALSE, ncol(x_pan_int)))
     x_mat <- cbind(x_mat, x_int_mat, x_pan_int)
     hold <- fixest::demean(cbind(y_mat, t_mat, x_mat),
-                           f = data[, panel_vars])
+                           f = mf[panel_vars])
     y_mat <- hold[, 1]
     t_mat <- hold[, 2:3]
     x_mat <- hold[, -c(1:3)]
@@ -122,7 +135,7 @@ post_ds_interaction <- function(data, treat, moderator, outcome, control_vars,
   }
 
   reg_out <- post_double_selection(x = x_mat, d = t_mat, y = y_mat,
-                                   v = data[[moderator]], cl = cl,
+                                   v = mf[[moderator]], cl = cl,
                                    panels = panel_mat, forced = forced,
                                    method = method)
   return(reg_out)
