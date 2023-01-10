@@ -1,5 +1,5 @@
 Package: inters
-Version: 0.1.9000
+Version: 0.2.0
 Title: Flexible Tools for Estimating Interactions
 Authors@R: c(
     person("Matthew", "Blackwell", email = "mblackwell@gov.harvard.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3689-9527")),
@@ -22,4 +22,4 @@ BugReports: https://github.com/mattblackwell/inters/issues
 VignetteBuilder: knitr
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
