@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inters</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -72,12 +72,13 @@
 
       
 
-      </header><script src="post-double-selection_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Estimating Interactions with Post-double Selection</h1>
+      <h1 data-toc-skip>Estimating Interactions with Post-double
+Selection</h1>
             
-            <h4 data-toc-skip class="date">2022-04-27</h4>
+            <h4 data-toc-skip class="date">2023-01-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mattblackwell/inters/blob/HEAD/vignettes/post-double-selection.Rmd" class="external-link"><code>vignettes/post-double-selection.Rmd</code></a></small>
       <div class="hidden name"><code>post-double-selection.Rmd</code></div>
@@ -86,52 +87,90 @@
 
     
     
-<p>In this vignette, we demonstrate how to use the <code>inters</code> package to conduct post-double selection for interactions with linear models. We use the remittances data of <span class="citation">Escribà-Folch, Meseguer, and Wright (<a href="#ref-EscMesWri2018" role="doc-biblioref">2018</a>)</span> to illustrate the method, as shown in <span class="citation">Blackwell and Olson (<a href="#ref-BlaOls21" role="doc-biblioref">2021</a>)</span>. The goal of this study was to evaluate how remittances affect political protest differently in democracies and non-democracies.</p>
-<p>To begin, we load the data and run two alternative models. The first is a simple single-interaction model that includes the treatment (remittances, <code>remit</code>), the moderator (a binary variable for autocracy, <code>dict</code>), an interaction between these two, and a series of control variables. We use the <code>feols</code> function from the <code>fixest</code> package to handle country and period fixed effects along with clustering at the country level.</p>
+<p>In this vignette, we demonstrate how to use the <code>inters</code>
+package to conduct post-double selection for interactions with linear
+models. We use the remittances data of <span class="citation">Escribà-Folch, Meseguer, and Wright (<a href="#ref-EscMesWri2018" role="doc-biblioref">2018</a>)</span> to
+illustrate the method, as shown in <span class="citation">Blackwell and
+Olson (<a href="#ref-BlaOls21" role="doc-biblioref">2021</a>)</span>.
+The goal of this study was to evaluate how remittances affect political
+protest differently in democracies and non-democracies.</p>
+<p>To begin, we load the data and run two alternative models. The first
+is a simple single-interaction model that includes the treatment
+(remittances, <code>remit</code>), the moderator (a binary variable for
+autocracy, <code>dict</code>), an interaction between these two, and a
+series of control variables. We use the <code>feols</code> function from
+the <code>fixest</code> package to handle country and period fixed
+effects along with clustering at the country level.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">remit</span><span class="op">)</span>
-<span class="va">single</span> <span class="op">&lt;-</span> <span class="fu">feols</span><span class="op">(</span><span class="va">Protest</span> <span class="op">~</span> <span class="va">remit</span><span class="op">*</span><span class="va">dict</span> <span class="op">+</span> <span class="va">l1gdp</span> <span class="op">+</span> <span class="va">l1pop</span> <span class="op">+</span> <span class="va">l1nbr5</span> <span class="op">+</span> <span class="va">l12gr</span> <span class="op">+</span> <span class="va">l1migr</span>
-               <span class="op">+</span> <span class="va">elec3</span> <span class="op">|</span> <span class="va">period</span> <span class="op">+</span> <span class="va">cowcode</span>, data <span class="op">=</span> <span class="va">remit</span><span class="op">)</span>
-<span class="fu">coeftable</span><span class="op">(</span><span class="va">single</span>, cluster <span class="op">=</span> <span class="op">~</span> <span class="va">caseid</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remit"</span>, <span class="st">"remit:dict"</span><span class="op">)</span>,<span class="op">]</span></code></pre></div>
-<pre><code><span class="co">##                Estimate Std. Error     t value    Pr(&gt;|t|)</span>
-<span class="co">## remit      0.0001522474 0.02253011 0.006757506 0.994614839</span>
-<span class="co">## remit:dict 0.0624127003 0.02336419 2.671297291 0.008156839</span></code></pre>
-<p>Next, we compare this single-interaction model to a model that fully interacts the moderator with the entire set of controls, including the fixed effects. <span class="citation">Blackwell and Olson (<a href="#ref-BlaOls21" role="doc-biblioref">2021</a>)</span> call this the <em>fully moderated model</em>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">remit</span><span class="op">)</span></span>
+<span><span class="va">single</span> <span class="op">&lt;-</span> <span class="fu">feols</span><span class="op">(</span><span class="va">Protest</span> <span class="op">~</span> <span class="va">remit</span><span class="op">*</span><span class="va">dict</span> <span class="op">+</span> <span class="va">l1gdp</span> <span class="op">+</span> <span class="va">l1pop</span> <span class="op">+</span> <span class="va">l1nbr5</span> <span class="op">+</span> <span class="va">l12gr</span> <span class="op">+</span> <span class="va">l1migr</span></span>
+<span>               <span class="op">+</span> <span class="va">elec3</span> <span class="op">|</span> <span class="va">period</span> <span class="op">+</span> <span class="va">cowcode</span>, data <span class="op">=</span> <span class="va">remit</span><span class="op">)</span></span>
+<span><span class="fu">coeftable</span><span class="op">(</span><span class="va">single</span>, cluster <span class="op">=</span> <span class="op">~</span> <span class="va">caseid</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remit"</span>, <span class="st">"remit:dict"</span><span class="op">)</span>,<span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">##                Estimate Std. Error     t value    Pr(&gt;|t|)</span></span>
+<span><span class="co">## remit      0.0001522474 0.02253011 0.006757506 0.994614839</span></span>
+<span><span class="co">## remit:dict 0.0624127003 0.02336419 2.671297291 0.008156839</span></span></code></pre>
+<p>Next, we compare this single-interaction model to a model that fully
+interacts the moderator with the entire set of controls, including the
+fixed effects. <span class="citation">Blackwell and Olson (<a href="#ref-BlaOls21" role="doc-biblioref">2021</a>)</span> call this the
+<em>fully moderated model</em>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fully</span> <span class="op">&lt;-</span> <span class="fu">feols</span><span class="op">(</span><span class="va">Protest</span> <span class="op">~</span> <span class="va">dict</span> <span class="op">*</span> <span class="op">(</span><span class="va">remit</span> <span class="op">+</span> <span class="va">l1gdp</span> <span class="op">+</span> <span class="va">l1pop</span> <span class="op">+</span> <span class="va">l1nbr5</span> <span class="op">+</span> <span class="va">l12gr</span> <span class="op">+</span> <span class="va">l1migr</span> <span class="op">+</span>
-                                   <span class="va">elec3</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">period</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cowcode</span><span class="op">)</span><span class="op">)</span>,
-               data <span class="op">=</span> <span class="va">remit</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Variables 'dict:factor(cowcode)94', 'dict:factor(cowcode)100' and 60 others have been removed because of collinearity (see $collin.var).</span></code></pre>
+<code class="sourceCode R"><span><span class="va">fully</span> <span class="op">&lt;-</span> <span class="fu">feols</span><span class="op">(</span><span class="va">Protest</span> <span class="op">~</span> <span class="va">dict</span> <span class="op">*</span> <span class="op">(</span><span class="va">remit</span> <span class="op">+</span> <span class="va">l1gdp</span> <span class="op">+</span> <span class="va">l1pop</span> <span class="op">+</span> <span class="va">l1nbr5</span> <span class="op">+</span> <span class="va">l12gr</span> <span class="op">+</span> <span class="va">l1migr</span> <span class="op">+</span></span>
+<span>                                   <span class="va">elec3</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">period</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cowcode</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>               data <span class="op">=</span> <span class="va">remit</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## The variables 'dict:factor(cowcode)94', 'dict:factor(cowcode)100' and sixty others have been removed because of collinearity (see $collin.var).</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">coeftable</span><span class="op">(</span><span class="va">fully</span>, <span class="va">cluster</span> <span class="op">~</span> <span class="va">caseid</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remit"</span>, <span class="st">"dict:remit"</span><span class="op">)</span>,<span class="op">]</span></code></pre></div>
-<pre><code><span class="co">##              Estimate Std. Error   t value   Pr(&gt;|t|)</span>
-<span class="co">## remit      0.06427051 0.03226551 1.9919259 0.04769348</span>
-<span class="co">## dict:remit 0.01102520 0.04321956 0.2550975 0.79890106</span></code></pre>
-<p>Finally, we compare both of these approaches to that of the post-double-selection estimator of <span class="citation">Belloni, Chernozhukov, and Hansen (<a href="#ref-BelCheHan14" role="doc-biblioref">2014</a>)</span>, which uses the lasso to select variables that are important to the outcome, treatment, or the treatment-moderator interaction, then runs a standard least squares regression on those variables selected by the various lasso steps. The <code>post_ds_interactions</code> function implements this procedure and takes character strings with the names of various variables. Furthermore, it can also handle clustered data, which importantly changes the calculation of the penalty parameter in the lasso steps.</p>
+<code class="sourceCode R"><span><span class="fu">coeftable</span><span class="op">(</span><span class="va">fully</span>, <span class="va">cluster</span> <span class="op">~</span> <span class="va">caseid</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remit"</span>, <span class="st">"dict:remit"</span><span class="op">)</span>,<span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">##              Estimate Std. Error   t value   Pr(&gt;|t|)</span></span>
+<span><span class="co">## remit      0.06427051 0.03226551 1.9919259 0.04769348</span></span>
+<span><span class="co">## dict:remit 0.01102520 0.04321956 0.2550975 0.79890106</span></span></code></pre>
+<p>Finally, we compare both of these approaches to that of the
+post-double-selection estimator of <span class="citation">Belloni,
+Chernozhukov, and Hansen (<a href="#ref-BelCheHan14" role="doc-biblioref">2014</a>)</span>, which uses the lasso to select
+variables that are important to the outcome, treatment, or the
+treatment-moderator interaction, then runs a standard least squares
+regression on those variables selected by the various lasso steps. The
+<code>post_ds_interactions</code> function implements this procedure and
+takes character strings with the names of various variables.
+Furthermore, it can also handle clustered data, which importantly
+changes the calculation of the penalty parameter in the lasso steps.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">controls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l1gdp"</span>, <span class="st">"l1pop"</span>, <span class="st">"l1nbr5"</span>, <span class="st">"l12gr"</span>, <span class="st">"l1migr"</span>, <span class="st">"elec3"</span><span class="op">)</span>
-<span class="va">post_ds_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/post_ds_interaction.html">post_ds_interaction</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">remit</span>, treat <span class="op">=</span> <span class="st">"remit"</span>, moderator <span class="op">=</span> <span class="st">"dict"</span>,
-                                outcome <span class="op">=</span> <span class="st">"Protest"</span>, control_vars <span class="op">=</span> <span class="va">controls</span>,
-                                panel_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cowcode"</span>, <span class="st">"period"</span><span class="op">)</span>,
-                                cluster <span class="op">=</span> <span class="st">"caseid"</span><span class="op">)</span>
-<span class="fu">lmtest</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">coeftest</a></span><span class="op">(</span><span class="va">post_ds_out</span>, vcov <span class="op">=</span> <span class="va">post_ds_out</span><span class="op">$</span><span class="va">clustervcv</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remit"</span>, <span class="st">"remit_dict"</span><span class="op">)</span>,<span class="op">]</span></code></pre></div>
-<pre><code><span class="co">##              Estimate Std. Error  t value    Pr(&gt;|t|)</span>
-<span class="co">## remit      0.03238385 0.01148304 2.820145 0.004839614</span>
-<span class="co">## remit_dict 0.01483665 0.01316154 1.127273 0.259739759</span></code></pre>
-<p>With these results in hand, we can compare the different methods to see that the fully moderated and post-double-selection approaches both provide similar point estimates, with the post-double-selection estimator having slightly less uncertainty. The single-interaction model, on the other hand, leads to a dramatically different conclusion.</p>
+<code class="sourceCode R"><span><span class="va">controls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l1gdp"</span>, <span class="st">"l1pop"</span>, <span class="st">"l1nbr5"</span>, <span class="st">"l12gr"</span>, <span class="st">"l1migr"</span>, <span class="st">"elec3"</span><span class="op">)</span></span>
+<span><span class="va">post_ds_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/post_ds_interaction.html">post_ds_interaction</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">remit</span>, treat <span class="op">=</span> <span class="st">"remit"</span>, moderator <span class="op">=</span> <span class="st">"dict"</span>,</span>
+<span>                                outcome <span class="op">=</span> <span class="st">"Protest"</span>, control_vars <span class="op">=</span> <span class="va">controls</span>,</span>
+<span>                                panel_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cowcode"</span>, <span class="st">"period"</span><span class="op">)</span>,</span>
+<span>                                cluster <span class="op">=</span> <span class="st">"caseid"</span><span class="op">)</span></span>
+<span><span class="fu">lmtest</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">coeftest</a></span><span class="op">(</span><span class="va">post_ds_out</span>, vcov <span class="op">=</span> <span class="va">post_ds_out</span><span class="op">$</span><span class="va">clustervcv</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remit"</span>, <span class="st">"remit_dict"</span><span class="op">)</span>,<span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">##              Estimate Std. Error  t value    Pr(&gt;|t|)</span></span>
+<span><span class="co">## remit      0.03238385 0.01148304 2.820145 0.004839614</span></span>
+<span><span class="co">## remit_dict 0.01483665 0.01316154 1.127273 0.259739759</span></span></code></pre>
+<p>With these results in hand, we can compare the different methods to
+see that the fully moderated and post-double-selection approaches both
+provide similar point estimates, with the post-double-selection
+estimator having slightly less uncertainty. The single-interaction
+model, on the other hand, leads to a dramatically different
+conclusion.</p>
+<pre><code><span><span class="co">## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span></code></pre>
 <p><img src="post-double-selection_files/figure-html/coefplot-1.png" width="768" style="display: block; margin: auto;"></p>
 <div class="section level2 unnumbered">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-BelCheHan14">
-<p>Belloni, Alexandre, Victor Chernozhukov, and Christian Hansen. 2014. “Inference on Treatment Effects After Selection Among High-Dimensional Controls.” <em>The Review of Economic Studies</em> 81 (2): 608–50. <a href="https://doi.org/10.1093/restud/rdt044" class="external-link">https://doi.org/10.1093/restud/rdt044</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-BelCheHan14" class="csl-entry">
+Belloni, Alexandre, Victor Chernozhukov, and Christian Hansen. 2014.
+<span>“Inference on Treatment Effects After Selection Among
+High-Dimensional Controls.”</span> <em>The Review of Economic
+Studies</em> 81 (2): 608–50. <a href="https://doi.org/10.1093/restud/rdt044" class="external-link">https://doi.org/10.1093/restud/rdt044</a>.
 </div>
-<div id="ref-BlaOls21">
-<p>Blackwell, Matthew, and Michael Olson. 2021. “Reducing Model Misspecification and Bias in the Estimation of Interactions.” <em>Political Analysis</em>. <a href="https://doi.org/10.1017/pan.2021.19" class="external-link">https://doi.org/10.1017/pan.2021.19</a>.</p>
+<div id="ref-BlaOls21" class="csl-entry">
+Blackwell, Matthew, and Michael Olson. 2021. <span>“Reducing Model
+Misspecification and Bias in the Estimation of Interactions.”</span>
+<em>Political Analysis</em>. <a href="https://doi.org/10.1017/pan.2021.19" class="external-link">https://doi.org/10.1017/pan.2021.19</a>.
 </div>
-<div id="ref-EscMesWri2018">
-<p>Escribà-Folch, Abel, Covadonga Meseguer, and Joseph Wright. 2018. “Remittances and Protest in Dictatorships.” <em>American Journal of Political Science</em> 62 (4): 889–904. <a href="https://doi.org/10.1111/ajps.12382" class="external-link">https://doi.org/10.1111/ajps.12382</a>.</p>
+<div id="ref-EscMesWri2018" class="csl-entry">
+Escribà-Folch, Abel, Covadonga Meseguer, and Joseph Wright. 2018.
+<span>“Remittances and Protest in Dictatorships.”</span> <em>American
+Journal of Political Science</em> 62 (4): 889–904. <a href="https://doi.org/10.1111/ajps.12382" class="external-link">https://doi.org/10.1111/ajps.12382</a>.
 </div>
 </div>
 </div>
@@ -154,7 +193,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

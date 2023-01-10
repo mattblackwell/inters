@@ -18,7 +18,7 @@ estimation of an interaction in a linear model."><!-- mathjax --><script src="ht
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inters</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -62,49 +62,68 @@ estimation of an interaction in a linear model.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">post_ds_interaction</span><span class="op">(</span>
-  <span class="va">data</span>,
-  <span class="va">treat</span>,
-  <span class="va">moderator</span>,
-  <span class="va">outcome</span>,
-  <span class="va">control_vars</span>,
-  panel_vars <span class="op">=</span> <span class="cn">NULL</span>,
-  moderator_marg <span class="op">=</span> <span class="cn">TRUE</span>,
-  cluster <span class="op">=</span> <span class="cn">NULL</span>,
-  method <span class="op">=</span> <span class="st">"double selection"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">post_ds_interaction</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">treat</span>,</span>
+<span>  <span class="va">moderator</span>,</span>
+<span>  <span class="va">outcome</span>,</span>
+<span>  <span class="va">control_vars</span>,</span>
+<span>  panel_vars <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  moderator_marg <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  cluster <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"double selection"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>data.frame to find the relevant variables.</p></dd>
+
+
 <dt>treat</dt>
 <dd><p>string with the name of the treatment variable.</p></dd>
+
+
 <dt>moderator</dt>
 <dd><p>string with the name of the moderating variable.</p></dd>
+
+
 <dt>outcome</dt>
 <dd><p>string with the name of the outcome variable.</p></dd>
+
+
 <dt>control_vars</dt>
 <dd><p>vector of strings with the names of the
 control variables to include.</p></dd>
+
+
 <dt>panel_vars</dt>
 <dd><p>vector of strings with the names of categorical
 variables to include as fixed effects.</p></dd>
+
+
 <dt>moderator_marg</dt>
 <dd><p>logical indicating if the lower-order term
 of the moderator should be included ()</p></dd>
+
+
 <dt>cluster</dt>
 <dd><p>string with the name of the cluster variable.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>string indicating which method to use. The default
 is <code>"double selection"</code> selects variables based on the
 outcome and treatment/interaction variables and <code>"single
 selection"</code> only selects on the outcome.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns an object of the class <code>lm</code> with an
+    
+
+<p>Returns an object of the class <code>lm</code> with an
   additional <code>clustervcv</code> object containing the
   cluster-robust variance matrix estimate when <code>cluster</code> is
   provided.</p>
@@ -138,18 +157,18 @@ selection"</code> only selects on the outcome.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">remit</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">controls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l1gdp"</span>, <span class="st">"l1pop"</span>, <span class="st">"l1nbr5"</span>, <span class="st">"l12gr"</span>, <span class="st">"l1migr"</span>,</span>
-<span class="r-in"><span class="st">"elec3"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">post_ds_out</span> <span class="op">&lt;-</span> <span class="fu">post_ds_interaction</span><span class="op">(</span></span>
-<span class="r-in">  data <span class="op">=</span> <span class="va">remit</span>, treat <span class="op">=</span> <span class="st">"remit"</span>,</span>
-<span class="r-in">  moderator <span class="op">=</span> <span class="st">"dict"</span>, outcome <span class="op">=</span> <span class="st">"Protest"</span>,</span>
-<span class="r-in">  control_vars <span class="op">=</span> <span class="va">controls</span>,</span>
-<span class="r-in">  cluster <span class="op">=</span> <span class="st">"caseid"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">remit</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">controls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"l1gdp"</span>, <span class="st">"l1pop"</span>, <span class="st">"l1nbr5"</span>, <span class="st">"l12gr"</span>, <span class="st">"l1migr"</span>,</span></span>
+<span class="r-in"><span><span class="st">"elec3"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">post_ds_out</span> <span class="op">&lt;-</span> <span class="fu">post_ds_interaction</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">remit</span>, treat <span class="op">=</span> <span class="st">"remit"</span>,</span></span>
+<span class="r-in"><span>  moderator <span class="op">=</span> <span class="st">"dict"</span>, outcome <span class="op">=</span> <span class="st">"Protest"</span>,</span></span>
+<span class="r-in"><span>  control_vars <span class="op">=</span> <span class="va">controls</span>,</span></span>
+<span class="r-in"><span>  cluster <span class="op">=</span> <span class="st">"caseid"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -164,7 +183,7 @@ selection"</code> only selects on the outcome.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
