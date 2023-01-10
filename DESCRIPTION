@@ -15,7 +15,7 @@ Suggests:
     ggplot2,
     lmtest,
     rmarkdown
-Description: A set of functions to estimate interactions flexibly in the face of possibly many controls. Implements the procedures described in Blackwell and Olson (2022) <doi:10.1093/restud/rdt044>.
+Description: A set of functions to estimate interactions flexibly in the face of possibly many controls. Implements the procedures described in Blackwell and Olson (2022) <doi:10.1017/pan.2021.19>.
 License: GPL (>= 2)
 URL: https://mattblackwell.github.io/inters/
 BugReports: https://github.com/mattblackwell/inters/issues
