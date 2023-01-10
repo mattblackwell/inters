@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   post-double-selection: post-double-selection.html
-last_built: 2023-01-10T18:12Z
+last_built: 2023-01-10T19:24Z
 urls:
   reference: https://mattblackwell.github.io/inters/reference
   article: https://mattblackwell.github.io/inters/articles
